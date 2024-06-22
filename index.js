@@ -7,12 +7,13 @@ const server = http.createServer((req, res) => {
   if (path.path == '/favicon.ico') return res.end()
   const fileName = path.path === '/' ? './index.html' : `.${path.path}.html`
   console.log(`Request: ${path.pathname}`)
+  res.writeHead(200, { 'Content-Type': 'text/html' })
   fs.readFile(fileName, 'utf-8', (err, data) => {
     if (!err) { 
-      console.log(`Success request: ${fileName}`,  '\n---------------')
+      console.log(`Success: ${fileName}`,  '\n---------------')
       res.end(data)
     } else {
-      console.log(`Error: ${fileName}`,  '\n---------------')
+      console.error(`Error: ${fileName}`,  '\n---------------')
       fs.readFile('404.html', 'utf-8', (err, errorPage) => {
         res.end(errorPage)
       })
